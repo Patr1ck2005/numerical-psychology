@@ -1,0 +1,16 @@
+{
+  "hooks": {
+    "PreToolUse": [
+      {
+        "matcher": "Read",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python \"d:/Dev/Projects/Personal/numerical-psychology/.claude/hooks/block_image_read.py\"",
+            "timeout": 10
+          }
+        ]
+      }
+    ]
+  }
+}

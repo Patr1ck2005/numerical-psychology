@@ -1,0 +1,72 @@
+# Python bytecode
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+
+# Packaging / builds
+build/
+dist/
+*.egg-info/
+*.egg
+MANIFEST
+
+# Virtual environments
+.venv/
+venv/
+env/
+ENV/
+env.bak/
+venv.bak/
+
+# IDEs
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.project
+.pydevproject
+
+# OS
+.DS_Store
+Thumbs.db
+desktop.ini
+ehthumbs.db
+
+# Testing / coverage
+.pytest_cache/
+.coverage
+.coverage.*
+htmlcov/
+.tox/
+.nox/
+coverage.xml
+*.cover
+.hypothesis/
+
+# Type checkers / linters
+.mypy_cache/
+.pyre/
+.pytype/
+.ruff_cache/
+
+# Jupyter (just in case)
+.ipynb_checkpoints/
+
+# Streamlit
+.streamlit/secrets.toml
+.streamlit/cache/
+
+# Logs
+*.log
+pip-log.txt
+
+# Env / secrets
+.env
+.env.local
+.env.*.local
+
+# Claude (machine-local only; keep settings.json and hooks/ for project sharing)
+.claude/settings.local.json
+.claude/cache/
