@@ -1,53 +1,55 @@
-# Numerical Psychology: 拖延的吸引子模型
+# Numerical Psychology
 
-为什么不管闹钟提前多少分钟，最后总迟到差不多 10 分钟？
+**Why might an earlier alarm fail to reduce lateness?** Five toy numerical models explore how urgency, work rate and deadline pressure can create a nearly constant lateness plateau.
 
-本项目用 5 个数值模型形式化这个观察：**应急感**（urgency）在 deadline 临近时切换行为模式，但应急速度有上限，所以迟到量被锁死 -- 这就是一个**吸引子**（attractor）。
+[简体中文](README.zh-CN.md) · [Model source](procrastination/) · [History](docs/README-history.md)
 
-## 模型
+![Existing synthetic lateness curves for threshold and continuous models](figures/attractor.png)
 
-| 模型 | 内部驱动 | 关键参数 | 备注 |
-|------|---------|---------|------|
-| **Threshold** | 阶跃紧迫感 | $v_s, v_f, T^*$ | 你的原始观察；有闭式解 $L = (W - v_s(B-T^*))/v_f - T^*$ |
-| **Continuous** | sigmoid 紧迫感 | $\alpha, T^*$ | 平滑版阈值模型 |
-| **TMT** | Steel 的动机公式 | $\Gamma$ (impulsiveness) | Steel (2007) *The Nature of Procrastination* |
-| **Yerkes-Dodson** | 倒 U 形唤醒 | $T_{yd}$ | 太接近 deadline 反而减速（恐慌） |
-| **Planning Fallacy** | 工作量低估噪声 | $\sigma$ | 包装其他模型；Kahneman-Tversky |
+*Model-generated curves already in the public repository. Preset labels are illustrative; these are not human-subject measurements or clinical evidence.*
 
-## 关键洞察：吸引子
+## The experiment
 
-设 $B$ = 醒来到上课的缓冲时间，$L$ = 迟到量。在 Threshold 模型里：
+| Model | Mechanism being explored |
+|---|---|
+| Threshold | Work rate switches when the deadline becomes close |
+| Continuous | A smooth urgency response replaces the switch |
+| TMT-inspired | A simplified motivation formula changes urgency |
+| Yerkes–Dodson-inspired | Excess pressure can reduce the assumed work rate |
+| Planning fallacy | Workload-estimation noise wraps other models |
 
-$$L = \frac{W - v_s (B - T^*)}{v_f} - T^*$$
+For the threshold model, let `B` be the available buffer, `W` the workload, `vs` the slow rate, `vf` the urgent rate and `T*` the urgency threshold. In its applicable branch:
 
-当 $v_s \to 0$（强拖延），$L \to W/v_f - T^*$，**与 $B$ 无关**。所以只要 $B > T^*$（醒得够早），迟到量被锁死。
+```text
+L = (W - vs (B - T*)) / vf - T*
+```
 
-定义**吸引子强度** $A(\theta) = \text{std}_B(L(B; \theta))$ over $B \in [15, 90]$。$A \to 0$ 表示强吸引子。
+When `vs` approaches zero and `B > T*`, lateness `L` approaches `W/vf - T*`, almost independent of the buffer. Here “attractor” describes that parameter-response plateau, not a demonstrated universal psychological law or a formal dynamical-systems attractor for all five models.
 
-## 运行
+## Run and explore
 
 ```bash
-pip install -r requirements.txt
-
-# 网页交互（5 个 tab）
+python -m pip install -r requirements.txt
 streamlit run app/streamlit_app.py
+```
 
-# 静态图（生成 figures/*.png）
+Select presets and compare lateness curves, trajectories and phase diagrams. To regenerate the included numerical figures:
+
+```bash
 python experiments/01_attractor_curve.py
 python experiments/02_phase_diagram.py
 python experiments/03_trajectory.py
 ```
 
-## 验证
+| Source | Contents |
+|---|---|
+| [procrastination/](procrastination/) | Model definitions and numerical utilities |
+| [app/streamlit_app.py](app/streamlit_app.py) | Interactive comparison |
+| [experiments/](experiments/) | Reproducible plotting scripts |
+| [figures/](figures/) | Existing generated example figures |
 
-- **吸引子 plateau**: 选 "procrastinator" 预设 -> Tab 2 中 $B > T^*$ 时 $L$ 接近常数
-- **非拖延者**: 选 "diligent" 预设 -> $L$ 始终 $< 0$（早到）
-- **YD 反直觉**: Tab 4 中 YD 模型 $L$ 随 $B$ 减小而**增大**（恐慌减速）
-- **相图**: Tab 3 中 $v_s \to 0$ 区域显示低标准差（强吸引子）
+## Status, references and license
 
-## 参考
+An exploratory modeling notebook/application. There is no empirical dataset, fitted population model or validated intervention in this repository. Literature inspirations in the [original README](docs/README-history.md) include Steel (2007), Yerkes and Dodson (1908), and Kahneman and Tversky (1979); the implementations are simplified illustrations, not reproductions of all those theories. This documentation pass did not rerun the models.
 
-- Steel, P. (2007). *The Nature of Procrastination: A Meta-Analytic and Theoretical Review*. Psychological Bulletin.
-- Yerkes, R. M., & Dodson, J. D. (1908). *The relation of strength of stimulus to rapidity of habit-formation*.
-- Kahneman, D., & Tversky, A. (1979). *Intuitive prediction: Biases and corrective procedures*.
-- Parkinson, C. N. (1955). *Parkinson's Law*.
+No repository-wide open-source license is declared in this snapshot. Public source visibility does not grant an unrestricted reuse license; third-party material retains its own terms.
